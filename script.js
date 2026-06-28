@@ -1,5 +1,7 @@
 // Veri Depolama
 const DATA_KEY = 'evaluations_data';
+const SPREADSHEET_ID = '1UI5AaBwIxMu_i8yIGAhIeUh6hKeC2RNfgxYUvcXM9vQ';
+const SCRIPT_URL = 'https://script.google.com/macros/d/YOUR_SCRIPT_DEPLOYMENT_ID/usercopy';
 
 // DOM Elements
 const navBtns = document.querySelectorAll('.nav-btn');
@@ -69,6 +71,7 @@ day5Form.addEventListener('submit', (e) => {
     };
 
     saveData(formData);
+    saveToGoogleSheets(formData, 'day5');
     showSuccessMessage();
     day5Form.reset();
     document.querySelectorAll('.emoji-btn, .star').forEach(btn => btn.classList.remove('selected'));
@@ -90,17 +93,63 @@ generalForm.addEventListener('submit', (e) => {
     };
 
     saveData(formData);
+    saveToGoogleSheets(formData, 'general');
     showSuccessMessage();
     generalForm.reset();
     updateWordcloud();
     updateStats();
 });
 
-// Veri Kaydetme
+// Veri Kaydetme (LocalStorage)
 function saveData(data) {
     let allData = JSON.parse(localStorage.getItem(DATA_KEY)) || [];
     allData.push(data);
     localStorage.setItem(DATA_KEY, JSON.stringify(allData));
+}
+
+// Google Sheets'e Kaydet
+function saveToGoogleSheets(formData, type) {
+    let row = [];
+    let sheetName = '';
+    
+    if (type === 'day5') {
+        sheetName = '5. Gün Değerlendirme';
+        row = [
+            formData.timestamp,
+            formData.name,
+            formData.threeWords,
+            formData.learning,
+            formData.thinking,
+            formData.future,
+            formData.emoji,
+            formData.rating
+        ];
+    } else if (type === 'general') {
+        sheetName = 'Genel Değerlendirme';
+        row = [
+            formData.timestamp,
+            formData.name,
+            formData.activity1,
+            formData.activity2,
+            formData.activity3,
+            formData.comment
+        ];
+    }
+    
+    // Google Apps Script Web App'e veri gönder
+    const payload = {
+        spreadsheetId: SPREADSHEET_ID,
+        sheetName: sheetName,
+        data: row
+    };
+    
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        mode: 'no-cors'
+    }).catch(err => {
+        console.log('Google Sheets kaydı başlatıldı (sonuç görüntülenmeyebilir)');
+    });
 }
 
 // Başarı Mesajı
