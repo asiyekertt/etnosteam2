@@ -22,6 +22,7 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
 .record{border-left:6px solid #64748b;background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}.small{font-size:13px;color:#6b7280}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.csv{border:0;border-radius:14px;background:#22c55e;color:#fff;padding:12px 16px;font-weight:800;cursor:pointer}
 .wordcloud{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;min-height:200px;padding:20px;background:#f0f9ff;border-radius:16px;margin:20px 0}.word{padding:12px 20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:20px;font-weight:800;font-size:1em;cursor:pointer;transition:all .2s}.word:hover{transform:scale(1.1);box-shadow:0 4px 12px #0003}
 .word-size-1{font-size:0.8em}.word-size-2{font-size:1em}.word-size-3{font-size:1.2em}.word-size-4{font-size:1.4em}.word-size-5{font-size:1.6em}
+.generalRecord{border-left:6px solid #f59e0b;background:#fffbeb;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}
 @media(max-width:640px){.title{font-size:32px}.row,.actions{grid-template-columns:1fr}.card{padding:20px}.dayBtn{font-size:16px}}
 </style>
 </head>
@@ -37,8 +38,8 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
     <button class="dayBtn red" onclick="openDay(3)"><span>3. Gün – Kültürel Miras ve Su</span><span>💧</span></button>
     <button class="dayBtn purple" onclick="openDay(4)"><span>4. Gün – Teknoloji, Dönüşüm ve Gelecek</span><span>🤖</span></button>
     <button class="dayBtn orange" onclick="openDay(5)"><span>5. Gün – Gelecek Vizyonumu Tasarlarken</span><span>🎨</span></button>
+    <button class="panelBtn" onclick="showGeneral()" style="background:#fef3c7;border-color:#f59e0b">📊 Genel Değerlendirme & Kelime Bulutu</button>
     <button class="panelBtn" onclick="showPanel()">⚙️ Öğretmen Paneli</button>
-    <button class="panelBtn" onclick="showGeneral()" style="background:#f3f4f6;border-color:#f59e0b">📊 Genel Değerlendirme & Kelime Bulutu</button>
   </section>
 
   <section id="formScreen" class="card" style="display:none">
@@ -103,17 +104,12 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
     </form>
   </section>
 
-  <section id="panel" class="card" style="display:none">
-    <div class="topbar"><h2>⚙️ Öğretmen İzleme Paneli</h2><button class="csv" onclick="downloadCSV()">CSV Olarak İndir</button></div>
-    <select id="filter" onchange="renderPanel()"><option value="all">Tüm Günler</option><option value="1">1. Gün</option><option value="2">2. Gün</option><option value="3">3. Gün</option><option value="4">4. Gün</option><option value="5">5. Gün</option></select>
-    <div id="records"></div>
-    <button class="backBtn" onclick="goHome()">Ana Ekrana Dön</button>
-  </section>
-
   <section id="generalScreen" class="card" style="display:none">
     <div class="topbar">
       <h2 style="margin:0">📊 Genel Değerlendirme</h2>
+      <button class="csv" onclick="downloadGeneralCSV()">CSV İndir</button>
     </div>
+    
     <form id="generalForm">
       <div class="q">
         <label>1. Adın Soyadın</label>
@@ -139,12 +135,24 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
       <div id="generalNotice" class="notice"></div>
     </form>
 
+    <div id="generalDataSection" style="display:none">
+      <h3 style="margin-top:40px">📋 Gelen Değerlendirmeler</h3>
+      <div id="generalRecords"></div>
+    </div>
+
     <div id="wordcloudSection" style="display:none">
       <h3 style="text-align:center;margin-top:40px">✨ Kelime Bulutu ✨</h3>
       <p style="text-align:center;color:#6b7280">Tüm öğrencilerin aklında kalan kelimeler</p>
       <div id="wordcloud" class="wordcloud"></div>
       <button class="csv" onclick="goHome()" style="width:100%">Ana Ekrana Dön</button>
     </div>
+  </section>
+
+  <section id="panel" class="card" style="display:none">
+    <div class="topbar"><h2>⚙️ Öğretmen İzleme Paneli</h2><button class="csv" onclick="downloadCSV()">CSV Olarak İndir</button></div>
+    <select id="filter" onchange="renderPanel()"><option value="all">Tüm Günler</option><option value="1">1. Gün</option><option value="2">2. Gün</option><option value="3">3. Gün</option><option value="4">4. Gün</option><option value="5">5. Gün</option></select>
+    <div id="records"></div>
+    <button class="backBtn" onclick="goHome()">Ana Ekrana Dön</button>
   </section>
 </div>
 
@@ -157,7 +165,7 @@ function $(id){return document.getElementById(id)}
 function goHome(){["home","formScreen","panel","generalScreen"].forEach(id=>$(id).style.display="none");$("home").style.display="block";}
 function openDay(d){currentDay=d;selectedEmoji="";selectedStar="";$("journalForm").reset();document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));$("formTitle").textContent=d+". Gün Günlüğüm";$("dayBadge").textContent=dayNames[d];$("notice").style.display="none";["home","panel","generalScreen"].forEach(id=>$(id).style.display="none");$("formScreen").style.display="block";window.scrollTo(0,0)}
 function showPanel(){["home","formScreen","generalScreen"].forEach(id=>$(id).style.display="none");$("panel").style.display="block";renderPanel();}
-function showGeneral(){["home","formScreen","panel"].forEach(id=>$(id).style.display="none");$("generalScreen").style.display="block";renderWordcloud();window.scrollTo(0,0)}
+function showGeneral(){["home","formScreen","panel"].forEach(id=>$(id).style.display="none");$("generalScreen").style.display="block";$("generalForm").style.display="block";$("generalDataSection").style.display="block";$("wordcloudSection").style.display="block";renderGeneralRecords();renderWordcloud();window.scrollTo(0,0)}
 document.querySelectorAll("#emojiGrid .choice").forEach(btn=>btn.onclick=()=>{selectedEmoji=btn.dataset.v;document.querySelectorAll("#emojiGrid .choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected")});
 document.querySelectorAll("#starGrid .choice").forEach(btn=>btn.onclick=()=>{selectedStar=btn.dataset.v;document.querySelectorAll("#starGrid .choice").forEach((b,i)=>{b.classList.toggle("selected", i < Number(selectedStar))})});
 function getRows(){return JSON.parse(localStorage.getItem("stemRows")||"[]")}
@@ -208,14 +216,21 @@ $("generalForm").addEventListener("submit", async (e)=>{
    await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"general",...generalData})});
    notice.textContent="🎉 Genel Değerlendirmen kaydedildi!";
    notice.className="notice"; notice.style.display="block";
-   $("generalForm").style.display="none";
-   $("wordcloudSection").style.display="block";
+   $("generalForm").reset();
+   renderGeneralRecords();
    renderWordcloud();
+   setTimeout(()=>$("generalNotice").style.display="none",3000);
  }catch(err){
    notice.textContent="Hata oluştu; lütfen tekrar deneyin.";
    notice.className="notice error"; notice.style.display="block";
  }
 });
+function renderGeneralRecords(){
+ const general=getGeneral();
+ const area=$("generalRecords");
+ if(general.length===0){area.innerHTML='<p class="small">Henüz kayıt yok.</p>';return}
+ area.innerHTML=general.map(r=>`<div class="generalRecord"><b>👤 ${r.adSoyad}</b><br><b>💭 Aklında Kalan Kelimeler:</b> ${r.kelimeler}<br><b>🎭 En Beğenilen Etkinlikler:</b><br>1. ${r.etkinlik1}<br>2. ${r.etkinlik2}<br>3. ${r.etkinlik3}<br><span class="small">${r.tarih}</span></div>`).join("");
+}
 function renderWordcloud(){
  const general=getGeneral();
  if(general.length===0){
@@ -252,6 +267,11 @@ function downloadCSV(){
  const rows=getRows(); const headers=["Tarih","Gün","Ad Soyad","3 Kelime","İlginç Bilgi","Düşündürdüğü","Gelecek Fikir","Duygu","Yıldız","Rozet"];
  const csv=[headers.join(";"),...rows.map(r=>[r.tarih,r.gun,r.adSoyad,r.ucKelime,r.ilgincBilgi,r.dusundurdugu,r.gelecekFikir,r.duygu,r.yildiz,r.rozet].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";"))].join("\n");
  const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="TUBITAK_4004_STEM_Gunlugu_Raporu.csv"; a.click();
+}
+function downloadGeneralCSV(){
+ const general=getGeneral(); const headers=["Tarih","Ad Soyad","Aklında Kalan Kelimeler","1. Etkinlik","2. Etkinlik","3. Etkinlik"];
+ const csv=[headers.join(";"),...general.map(r=>[r.tarih,r.adSoyad,r.kelimeler,r.etkinlik1,r.etkinlik2,r.etkinlik3].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";"))].join("\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="STEM_Genel_Degerlendirme.csv"; a.click();
 }
 </script>
 </body>
