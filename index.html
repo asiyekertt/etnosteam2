@@ -19,11 +19,12 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
 .emojiGrid,.starGrid{display:flex;gap:10px;flex-wrap:wrap}.choice{border:2px solid #d9e3ef;background:#fff;border-radius:14px;min-width:54px;height:50px;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer}.choice.selected{border-color:var(--gold);background:#fff7ed;box-shadow:0 0 0 3px #f59e0b22}
 .actions{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin-top:22px}.backBtn,.saveBtn{text-align:center;justify-content:center;margin:0}.backBtn{background:#e5e7eb}.saveBtn{background:#1f2937;color:#fff}
 .notice{display:none;margin-top:16px;border-radius:16px;padding:18px;background:#ecfdf5;border:2px solid #86efac;color:#166534;font-weight:800;text-align:center}.notice.error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
-.record{border-left:6px solid #64748b;background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}.small{font-size:13px;color:#6b7280}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.csv{border:0;border-radius:14px;background:#22c55e;color:#fff;padding:12px 16px;font-weight:800;cursor:pointer}
+.record{border-left:6px solid #64748b;background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}.small{font-size:13px;color:#6b7280}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.csv{border:0;border-radius:14px;background:#22c55e;color:#fff;padding:12px 16px;font-weight:800;cursor:pointer;margin:0 5px}
 .wordcloud{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;min-height:200px;padding:20px;background:#f0f9ff;border-radius:16px;margin:20px 0}.word{padding:12px 20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:20px;font-weight:800;font-size:1em;cursor:pointer;transition:all .2s}.word:hover{transform:scale(1.1);box-shadow:0 4px 12px #0003}
 .word-size-1{font-size:0.8em}.word-size-2{font-size:1em}.word-size-3{font-size:1.2em}.word-size-4{font-size:1.4em}.word-size-5{font-size:1.6em}
 .generalRecord{border-left:6px solid #f59e0b;background:#fffbeb;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}
-@media(max-width:640px){.title{font-size:32px}.row,.actions{grid-template-columns:1fr}.card{padding:20px}.dayBtn{font-size:16px}}
+.downloadSection{margin:20px 0;padding:16px;background:#f0fdf4;border-radius:14px;border:2px solid #86efac}
+@media(max-width:640px){.title{font-size:32px}.row,.actions{grid-template-columns:1fr}.card{padding:20px}.dayBtn{font-size:16px}.topbar{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -149,7 +150,12 @@ input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;pad
   </section>
 
   <section id="panel" class="card" style="display:none">
-    <div class="topbar"><h2>⚙️ Öğretmen İzleme Paneli</h2><button class="csv" onclick="downloadCSV()">CSV Olarak İndir</button></div>
+    <div class="topbar"><h2>⚙️ Öğretmen İzleme Paneli</h2></div>
+    <div class="downloadSection">
+      <h3 style="margin-top:0;margin-bottom:15px">📥 Verileri İndir</h3>
+      <button class="csv" onclick="downloadCSV()">📋 5 Gün Günlüğü CSV</button>
+      <button class="csv" onclick="downloadGeneralCSV()" style="background:#3b82f6">📊 Genel Değerlendirme CSV</button>
+    </div>
     <select id="filter" onchange="renderPanel()"><option value="all">Tüm Günler</option><option value="1">1. Gün</option><option value="2">2. Gün</option><option value="3">3. Gün</option><option value="4">4. Gün</option><option value="5">5. Gün</option></select>
     <div id="records"></div>
     <button class="backBtn" onclick="goHome()">Ana Ekrana Dön</button>
