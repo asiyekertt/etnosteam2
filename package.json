@@ -1,0 +1,23 @@
+{
+  "name": "etnosteam-evaluation",
+  "version": "1.0.0",
+  "description": "EtnoSTEAM 5 Günlük Değerlendirme Uygulaması",
+  "main": "index.html",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "etnosteam",
+    "evaluation",
+    "assessment",
+    "education"
+  ],
+  "author": "EtnoSTEAM Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "xlsx": "^0.18.5",
+    "cors": "^2.8.5"
+  }
+}
