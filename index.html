@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EtnoSTEAM Değerlendirme Uygulaması</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>🔬 EtnoSTEAM Değerlendirme</h1>
+                <p>Bugünün keşfini, duygunu ve geleceğe fikrini yaz.</p>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-btn active" data-tab="day5">📋 5. Gün Değerlendirme</button>
+            <button class="nav-btn" data-tab="general">🌟 Genel Değerlendirme</button>
+            <button class="nav-btn" data-tab="admin">⚙️ Yönetim Paneli</button>
+        </nav>
+
+        <!-- 5. Gün Değerlendirme -->
+        <div id="day5" class="tab-content active">
+            <form id="day5Form" class="evaluation-form">
+                <h2>5. Gün - Teknoloji, Dönüşüm ve Gelecek</h2>
+                
+                <div class="form-group">
+                    <label for="name">1. Adım Soyadım</label>
+                    <input type="text" id="name" name="name" placeholder="Adım ve soyadımı yaz" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_example">2. Bugünü 3 kelimeyle anlat</label>
+                    <input type="text" id="day5_example" name="day5_example" placeholder="Örn: merak, eğlence, roket" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_learning">3. Bugün öğrendiğim en ilginç bilgi</label>
+                    <textarea id="day5_learning" name="day5_learning" placeholder="Bugün öğrendiğim en ilginç bilgi..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_activity">4. Bugünkü etkinlik bana ne düşündürdü?</label>
+                    <textarea id="day5_activity" name="day5_activity" placeholder="Aklıma takılan yeni sorular tablosu..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_future">5. Bugünden geleceğe götüreceğim fikir</label>
+                    <textarea id="day5_future" name="day5_future" placeholder="Geleceğe taşıyacağım fikrim..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_emoji">6. Bugünkü duygu emojim</label>
+                    <div class="emoji-selector">
+                        <button type="button" class="emoji-btn" data-emoji="😊">😊</button>
+                        <button type="button" class="emoji-btn" data-emoji="🤩">🤩</button>
+                        <button type="button" class="emoji-btn" data-emoji="😍">😍</button>
+                        <button type="button" class="emoji-btn" data-emoji="😄">😄</button>
+                        <button type="button" class="emoji-btn" data-emoji="🤔">🤔</button>
+                        <button type="button" class="emoji-btn" data-emoji="😎">😎</button>
+                    </div>
+                    <input type="hidden" id="day5_emoji" name="day5_emoji" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="day5_rating">7. Bugüne verdiğim yıldız puanı</label>
+                    <div class="star-rating">
+                        <button type="button" class="star" data-rating="1">⭐</button>
+                        <button type="button" class="star" data-rating="2">⭐</button>
+                        <button type="button" class="star" data-rating="3">⭐</button>
+                        <button type="button" class="star" data-rating="4">⭐</button>
+                        <button type="button" class="star" data-rating="5">⭐</button>
+                    </div>
+                    <input type="hidden" id="day5_rating" name="day5_rating" required>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">💾 Kaydet</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Genel Değerlendirme -->
+        <div id="general" class="tab-content">
+            <form id="generalForm" class="evaluation-form">
+                <h2>🌟 Genel Değerlendirme</h2>
+                
+                <div class="form-group">
+                    <label for="general_name">1. Adım Soyadım</label>
+                    <input type="text" id="general_name" name="general_name" placeholder="Adım ve soyadımı yaz" required>
+                </div>
+
+                <div class="form-group">
+                    <label>2. En Beğendiğim 3 Etkinlik</label>
+                    <p class="hint">Projede yaptığınız 5 etkinlik arasından en beğendiğiniz 3'ünü yazın.</p>
+                    
+                    <div class="activity-inputs">
+                        <div class="activity-item">
+                            <label for="activity1">1. Etkinlik</label>
+                            <input type="text" id="activity1" name="activity1" placeholder="Örn: İnovasyon ve Girişimcilik Ekosistemi" required>
+                        </div>
+                        <div class="activity-item">
+                            <label for="activity2">2. Etkinlik</label>
+                            <input type="text" id="activity2" name="activity2" placeholder="Örn: Patent Fikri Mülkiyet" required>
+                        </div>
+                        <div class="activity-item">
+                            <label for="activity3">3. Etkinlik</label>
+                            <input type="text" id="activity3" name="activity3" placeholder="Örn: Chatbot Tasarımı ve Görsel Tanıma" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="general_comment">3. Projehakkında Genel Yorumum</label>
+                    <textarea id="general_comment" name="general_comment" placeholder="Proje hakkında düşündüğünüz..."></textarea>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary">💾 Kaydet</button>
+                </div>
+            </form>
+
+            <!-- Kelime Bulutu Görüntüleme -->
+            <div class="wordcloud-container">
+                <h3>📊 Kelime Bulutu</h3>
+                <div id="wordcloud" class="wordcloud"></div>
+                <button id="refreshWordcloud" class="btn btn-secondary">🔄 Güncelle</button>
+            </div>
+        </div>
+
+        <!-- Yönetim Paneli -->
+        <div id="admin" class="tab-content">
+            <div class="admin-panel">
+                <h2>⚙️ Yönetim Paneli</h2>
+                
+                <div class="admin-section">
+                    <h3>📥 Verileri İndir</h3>
+                    <button id="downloadExcel" class="btn btn-success">📊 Excel Olarak İndir</button>
+                    <button id="downloadCSV" class="btn btn-success">📋 CSV Olarak İndir</button>
+                </div>
+
+                <div class="admin-section">
+                    <h3>🗑️ Verileri Temizle</h3>
+                    <button id="clearData" class="btn btn-danger">Tüm Verileri Sil</button>
+                </div>
+
+                <div class="admin-section">
+                    <h3>📈 İstatistikler</h3>
+                    <div id="stats" class="stats-display">
+                        <p>5. Gün Değerlendirmeler: <strong id="day5Count">0</strong></p>
+                        <p>Genel Değerlendirmeler: <strong id="generalCount">0</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message hidden">
+            ✅ Veriler başarıyla kaydedildi!
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
