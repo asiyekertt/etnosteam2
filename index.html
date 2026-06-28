@@ -1,170 +1,163 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EtnoSTEAM Değerlendirme Uygulaması</title>
-    <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sevgili STEM Günlüğü</title>
+<style>
+:root{--bg1:#eaf6ff;--bg2:#f7fff2;--ink:#24364b;--muted:#6b7280;--card:#ffffffdd;--blue:#3b82f6;--green:#22c55e;--red:#ef4444;--purple:#8b5cf6;--gold:#f59e0b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2));}
+.wrap{max-width:900px;margin:0 auto;padding:28px 18px}.card{background:var(--card);border-radius:24px;box-shadow:0 16px 45px #0002;border:1px solid #fff;padding:28px;margin:16px auto;backdrop-filter:blur(8px)}
+.center{text-align:center}.spark{font-size:30px;margin-bottom:8px}.title{font-size:42px;line-height:1.05;margin:0;font-weight:850}.subtitle{font-size:18px;color:#44566c;margin:8px 0 20px}.hr{height:1px;background:#dde7ef;margin:18px 0}
+.dayBtn,.panelBtn,.backBtn,.saveBtn{width:100%;border:0;border-radius:16px;padding:18px 20px;margin:10px 0;font-weight:800;font-size:18px;text-align:left;cursor:pointer;background:#fff;transition:.15s;display:flex;justify-content:space-between;align-items:center}
+.dayBtn:hover,.panelBtn:hover,.backBtn:hover,.saveBtn:hover{transform:translateY(-1px);box-shadow:0 8px 20px #0001}
+.blue{border:3px solid var(--blue);color:#1e4e91}.green{border:3px solid var(--green);color:#166534}.red{border:3px solid var(--red);color:#991b1b}.purple{border:3px solid var(--purple);color:#4c1d95}.orange{border:3px solid var(--gold);color:#92400e}
+.panelBtn{border:2px dashed #64748b;justify-content:center;font-size:14px;padding:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.badge{display:inline-block;border-radius:999px;padding:10px 16px;background:#eef2ff;color:#3730a3;font-weight:800}
+.q{margin:20px 0}.q label{display:block;font-weight:850;font-size:18px;margin-bottom:4px}.hint{color:var(--muted);font-size:13px;margin-bottom:8px}
+input,textarea,select{width:100%;border:2px solid #d9e3ef;border-radius:14px;padding:14px 15px;font-size:16px;background:#fff;color:#1f2937}textarea{min-height:90px;resize:vertical}
+.emojiGrid,.starGrid{display:flex;gap:10px;flex-wrap:wrap}.choice{border:2px solid #d9e3ef;background:#fff;border-radius:14px;min-width:54px;height:50px;display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer}.choice.selected{border-color:var(--gold);background:#fff7ed;box-shadow:0 0 0 3px #f59e0b22}
+.actions{display:grid;grid-template-columns:1fr 1.4fr;gap:12px;margin-top:22px}.backBtn,.saveBtn{text-align:center;justify-content:center;margin:0}.backBtn{background:#e5e7eb}.saveBtn{background:#1f2937;color:#fff}
+.notice{display:none;margin-top:16px;border-radius:16px;padding:18px;background:#ecfdf5;border:2px solid #86efac;color:#166534;font-weight:800;text-align:center}.notice.error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+.record{border-left:6px solid #64748b;background:#fff;border-radius:16px;padding:16px;margin:12px 0;box-shadow:0 8px 18px #0001}.small{font-size:13px;color:#6b7280}.topbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.csv{border:0;border-radius:14px;background:#22c55e;color:#fff;padding:12px 16px;font-weight:800;cursor:pointer}
+@media(max-width:640px){.title{font-size:32px}.row,.actions{grid-template-columns:1fr}.card{padding:20px}.dayBtn{font-size:16px}}
+</style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <h1>🔬 EtnoSTEAM Değerlendirme</h1>
-                <p>Bugünün keşfini, duygunu ve geleceğe fikrini yaz.</p>
-            </div>
-        </header>
+<div class="wrap">
+  <section id="home" class="card center">
+    <div class="spark">🚀 🌱 🔬 ⭐ 🏅</div>
+    <h1 class="title">Sevgili STEM Günlüğü</h1>
+    <div class="subtitle">Bugünün keşfini, duygunu ve geleceğe fikrini yaz.</div>
+    <div class="hr"></div>
+    <button class="dayBtn blue" onclick="openDay(1)"><span>1. Gün – Gökyüzüne Yolculuk</span><span>🚀</span></button>
+    <button class="dayBtn green" onclick="openDay(2)"><span>2. Gün – Doğadan Öğreniyorum</span><span>🌿</span></button>
+    <button class="dayBtn red" onclick="openDay(3)"><span>3. Gün – Kültürel Miras ve Su</span><span>💧</span></button>
+    <button class="dayBtn purple" onclick="openDay(4)"><span>4. Gün – Teknoloji, Dönüşüm ve Gelecek</span><span>🤖</span></button>
+    <button class="dayBtn orange" onclick="openDay(5)"><span>5. Gün – Gelecek Vizyonumu Tasarlarken</span><span>🎨</span></button>
+    <button class="panelBtn" onclick="showPanel()">⚙️ Öğretmen Paneli</button>
+  </section>
 
-        <!-- Navigation -->
-        <nav class="nav-tabs">
-            <button class="nav-btn active" data-tab="day5">📋 5. Gün Değerlendirme</button>
-            <button class="nav-btn" data-tab="general">🌟 Genel Değerlendirme</button>
-            <button class="nav-btn" data-tab="admin">⚙️ Yönetim Paneli</button>
-        </nav>
-
-        <!-- 5. Gün Değerlendirme -->
-        <div id="day5" class="tab-content active">
-            <form id="day5Form" class="evaluation-form">
-                <h2>5. Gün - Teknoloji, Dönüşüm ve Gelecek</h2>
-                
-                <div class="form-group">
-                    <label for="name">1. Adım Soyadım</label>
-                    <input type="text" id="name" name="name" placeholder="Adım ve soyadımı yaz" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_example">2. Bugünü 3 kelimeyle anlat</label>
-                    <input type="text" id="day5_example" name="day5_example" placeholder="Örn: merak, eğlence, roket" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_learning">3. Bugün öğrendiğim en ilginç bilgi</label>
-                    <textarea id="day5_learning" name="day5_learning" placeholder="Bugün öğrendiğim en ilginç bilgi..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_activity">4. Bugünkü etkinlik bana ne düşündürdü?</label>
-                    <textarea id="day5_activity" name="day5_activity" placeholder="Aklıma takılan yeni sorular tablosu..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_future">5. Bugünden geleceğe götüreceğim fikir</label>
-                    <textarea id="day5_future" name="day5_future" placeholder="Geleceğe taşıyacağım fikrim..." required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_emoji">6. Bugünkü duygu emojim</label>
-                    <div class="emoji-selector">
-                        <button type="button" class="emoji-btn" data-emoji="😊">😊</button>
-                        <button type="button" class="emoji-btn" data-emoji="🤩">🤩</button>
-                        <button type="button" class="emoji-btn" data-emoji="😍">😍</button>
-                        <button type="button" class="emoji-btn" data-emoji="😄">😄</button>
-                        <button type="button" class="emoji-btn" data-emoji="🤔">🤔</button>
-                        <button type="button" class="emoji-btn" data-emoji="😎">😎</button>
-                    </div>
-                    <input type="hidden" id="day5_emoji" name="day5_emoji" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="day5_rating">7. Bugüne verdiğim yıldız puanı</label>
-                    <div class="star-rating">
-                        <button type="button" class="star" data-rating="1">⭐</button>
-                        <button type="button" class="star" data-rating="2">⭐</button>
-                        <button type="button" class="star" data-rating="3">⭐</button>
-                        <button type="button" class="star" data-rating="4">⭐</button>
-                        <button type="button" class="star" data-rating="5">⭐</button>
-                    </div>
-                    <input type="hidden" id="day5_rating" name="day5_rating" required>
-                </div>
-
-                <div class="button-group">
-                    <button type="submit" class="btn btn-primary">💾 Kaydet</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Genel Değerlendirme -->
-        <div id="general" class="tab-content">
-            <form id="generalForm" class="evaluation-form">
-                <h2>🌟 Genel Değerlendirme</h2>
-                
-                <div class="form-group">
-                    <label for="general_name">1. Adım Soyadım</label>
-                    <input type="text" id="general_name" name="general_name" placeholder="Adım ve soyadımı yaz" required>
-                </div>
-
-                <div class="form-group">
-                    <label>2. En Beğendiğim 3 Etkinlik</label>
-                    <p class="hint">Projede yaptığınız 5 etkinlik arasından en beğendiğiniz 3'ünü yazın.</p>
-                    
-                    <div class="activity-inputs">
-                        <div class="activity-item">
-                            <label for="activity1">1. Etkinlik</label>
-                            <input type="text" id="activity1" name="activity1" placeholder="Örn: İnovasyon ve Girişimcilik Ekosistemi" required>
-                        </div>
-                        <div class="activity-item">
-                            <label for="activity2">2. Etkinlik</label>
-                            <input type="text" id="activity2" name="activity2" placeholder="Örn: Patent Fikri Mülkiyet" required>
-                        </div>
-                        <div class="activity-item">
-                            <label for="activity3">3. Etkinlik</label>
-                            <input type="text" id="activity3" name="activity3" placeholder="Örn: Chatbot Tasarımı ve Görsel Tanıma" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="general_comment">3. Projehakkında Genel Yorumum</label>
-                    <textarea id="general_comment" name="general_comment" placeholder="Proje hakkında düşündüğünüz..."></textarea>
-                </div>
-
-                <div class="button-group">
-                    <button type="submit" class="btn btn-primary">💾 Kaydet</button>
-                </div>
-            </form>
-
-            <!-- Kelime Bulutu Görüntüleme -->
-            <div class="wordcloud-container">
-                <h3>📊 Kelime Bulutu</h3>
-                <div id="wordcloud" class="wordcloud"></div>
-                <button id="refreshWordcloud" class="btn btn-secondary">🔄 Güncelle</button>
-            </div>
-        </div>
-
-        <!-- Yönetim Paneli -->
-        <div id="admin" class="tab-content">
-            <div class="admin-panel">
-                <h2>⚙️ Yönetim Paneli</h2>
-                
-                <div class="admin-section">
-                    <h3>📥 Verileri İndir</h3>
-                    <button id="downloadExcel" class="btn btn-success">📊 Excel Olarak İndir</button>
-                    <button id="downloadCSV" class="btn btn-success">📋 CSV Olarak İndir</button>
-                </div>
-
-                <div class="admin-section">
-                    <h3>🗑️ Verileri Temizle</h3>
-                    <button id="clearData" class="btn btn-danger">Tüm Verileri Sil</button>
-                </div>
-
-                <div class="admin-section">
-                    <h3>📈 İstatistikler</h3>
-                    <div id="stats" class="stats-display">
-                        <p>5. Gün Değerlendirmeler: <strong id="day5Count">0</strong></p>
-                        <p>Genel Değerlendirmeler: <strong id="generalCount">0</strong></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Success Message -->
-        <div id="successMessage" class="success-message hidden">
-            ✅ Veriler başarıyla kaydedildi!
-        </div>
+  <section id="formScreen" class="card" style="display:none">
+    <div class="topbar">
+      <h2 id="formTitle" style="margin:0">1. Gün Günlüğüm</h2>
+      <span id="dayBadge" class="badge">Gökyüzüne Yolculuk</span>
     </div>
+    <form id="journalForm">
+      <div class="q">
+        <label>1. Adın Soyadın</label>
+        <div class="hint">Adını ve soyadını yaz</div>
+        <input id="adSoyad" required placeholder="Adını ve soyadını yaz">
+      </div>
+      <div class="q">
+        <label>2. Bugünü 3 kelimeyle anlat</label>
+        <div class="hint">Örn: merak, eğlence, roket</div>
+        <input id="ucKelime" required placeholder="Örn: merak, eğlence, roket">
+      </div>
+      <div class="q">
+        <label>3. Bugün öğrendiğim en ilginç bilgi</label>
+        <div class="hint">Seni heyecanlandıran bilgi neydi?</div>
+        <textarea id="ilgincBilgi" required placeholder="Bugün öğrendiğim en ilginç bilgi..."></textarea>
+      </div>
+      <div class="q">
+        <label>4. Bugünkü etkinlik bana ne düşündürdü?</label>
+        <div class="hint">Aklına hangi yeni sorular takıldı?</div>
+        <textarea id="dusundurdugu" required placeholder="Aklıma takılan yeni sorular..."></textarea>
+      </div>
+      <div class="q">
+        <label>5. Bugünden geleceğe götüreceğim fikir</label>
+        <div class="hint">Bu fikir gelecekte ne işe yarayabilir?</div>
+        <textarea id="gelecekFikir" required placeholder="Geleceğe taşıyacağım fikrim..."></textarea>
+      </div>
+      <div class="q">
+        <label>6. Bugünkü duygu emojim</label>
+        <div class="hint">Bugünü en iyi anlatan emojiyi seç</div>
+        <div class="emojiGrid" id="emojiGrid">
+          <button type="button" class="choice" data-v="😀">😀</button>
+          <button type="button" class="choice" data-v="😍">😍</button>
+          <button type="button" class="choice" data-v="😎">😎</button>
+          <button type="button" class="choice" data-v="🤔">🤔</button>
+          <button type="button" class="choice" data-v="🥳">🥳</button>
+          <button type="button" class="choice" data-v="😐">😐</button>
+        </div>
+      </div>
+      <div class="q">
+        <label>7. Bugüne verdiğim yıldız puanı</label>
+        <div class="hint">1-5 arası yıldız seç</div>
+        <div class="starGrid" id="starGrid">
+          <button type="button" class="choice" data-v="1">⭐</button>
+          <button type="button" class="choice" data-v="2">⭐</button>
+          <button type="button" class="choice" data-v="3">⭐</button>
+          <button type="button" class="choice" data-v="4">⭐</button>
+          <button type="button" class="choice" data-v="5">⭐</button>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="backBtn" onclick="goHome()">🏠 Ana Ekrana Dön</button>
+        <button type="submit" class="saveBtn">💾 Kaydet ve Rozetimi Al</button>
+      </div>
+      <div id="notice" class="notice"></div>
+    </form>
+  </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
-    <script src="script.js"></script>
+  <section id="panel" class="card" style="display:none">
+    <div class="topbar"><h2>⚙️ Öğretmen İzleme Paneli</h2><button class="csv" onclick="downloadCSV()">CSV Olarak İndir</button></div>
+    <select id="filter" onchange="renderPanel()"><option value="all">Tüm Günler</option><option value="1">1. Gün</option><option value="2">2. Gün</option><option value="3">3. Gün</option><option value="4">4. Gün</option><option value="5">5. Gün</option></select>
+    <div id="records"></div>
+    <button class="backBtn" onclick="goHome()">Ana Ekrana Dön</button>
+  </section>
+</div>
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoFnxbbfvnlNqCadvqy5cSJptIlxNKRec2qaYJmn4_GqfJjFupqOIko8uv6WUPcCI-/exec";
+const dayNames = {1:"Gökyüzüne Yolculuk",2:"Doğadan Öğreniyorum",3:"Kültürel Miras ve Su",4:"Teknoloji, Dönüşüm ve Gelecek",5:"Gelecek Vizyonumu Tasarlarken"};
+const badges = {1:"🚀 Gökyüzü Kaşifi",2:"🌿 Doğa Dedektifi",3:"💧 Kültür ve Su Elçisi",4:"🤖 Gelecek Tasarımcısı",5:"🎨 Vizyon Mimarı"};
+let currentDay=1, selectedEmoji="", selectedStar="";
+function $(id){return document.getElementById(id)}
+function goHome(){["home","formScreen","panel"].forEach(id=>$(id).style.display="none");$("home").style.display="block";}
+function openDay(d){currentDay=d;selectedEmoji="";selectedStar="";$("journalForm").reset();document.querySelectorAll(".choice").forEach(x=>x.classList.remove("selected"));$("formTitle").textContent=d+". Gün Günlüğüm";$("dayBadge").textContent=dayNames[d];$("notice").style.display="none";["home","panel"].forEach(id=>$(id).style.display="none");$("formScreen").style.display="block";window.scrollTo(0,0)}
+function showPanel(){["home","formScreen"].forEach(id=>$(id).style.display="none");$("panel").style.display="block";renderPanel();}
+document.querySelectorAll("#emojiGrid .choice").forEach(btn=>btn.onclick=()=>{selectedEmoji=btn.dataset.v;document.querySelectorAll("#emojiGrid .choice").forEach(b=>b.classList.remove("selected"));btn.classList.add("selected")});
+document.querySelectorAll("#starGrid .choice").forEach(btn=>btn.onclick=()=>{selectedStar=btn.dataset.v;document.querySelectorAll("#starGrid .choice").forEach((b,i)=>{b.classList.toggle("selected", i < Number(selectedStar))})});
+function getRows(){return JSON.parse(localStorage.getItem("stemRows")||"[]")}
+function setRows(rows){localStorage.setItem("stemRows",JSON.stringify(rows))}
+$("journalForm").addEventListener("submit", async (e)=>{
+ e.preventDefault();
+ const notice=$("notice");
+ if(!selectedEmoji){notice.textContent="Lütfen bir duygu emojisi seç.";notice.className="notice error";notice.style.display="block";return}
+ if(!selectedStar){notice.textContent="Lütfen yıldız puanı seç.";notice.className="notice error";notice.style.display="block";return}
+ const row={
+  tarih:new Date().toLocaleString("tr-TR"),
+  gun: currentDay+". Gün",
+  adSoyad:$("adSoyad").value.trim(),
+  ucKelime:$("ucKelime").value.trim(),
+  ilgincBilgi:$("ilgincBilgi").value.trim(),
+  dusundurdugu:$("dusundurdugu").value.trim(),
+  gelecekFikir:$("gelecekFikir").value.trim(),
+  duygu:selectedEmoji,
+  yildiz:selectedStar,
+  rozet:badges[currentDay]
+ };
+ const rows=getRows(); rows.push(row); setRows(rows);
+ try{
+   await fetch(SCRIPT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(row)});
+   notice.textContent="🎉 Kaydedildi! "+row.rozet+" rozetini kazandın.";
+   notice.className="notice"; notice.style.display="block";
+   setTimeout(()=>goHome(),1800);
+ }catch(err){
+   notice.textContent="Kayıt cihazda saklandı; internet bağlantısını kontrol edin.";
+   notice.className="notice error"; notice.style.display="block";
+ }
+});
+function renderPanel(){
+ const filter=$("filter").value; const area=$("records"); const rows=getRows().filter(r=>filter==="all"||String(r.gun).startsWith(filter+"."));
+ if(rows.length===0){area.innerHTML='<p class="small">Henüz kayıt yok.</p>';return}
+ area.innerHTML=rows.map(r=>`<div class="record"><b>👤 ${r.adSoyad}</b><span style="float:right"><b>${r.gun}</b></span><br><b>2. 3 Kelime:</b> ${r.ucKelime}<br><b>3. İlginç Bilgi:</b> ${r.ilgincBilgi}<br><b>4. Düşündürdüğü:</b> ${r.dusundurdugu}<br><b>5. Gelecek Fikir:</b> ${r.gelecekFikir}<br><b>6. Duygu:</b> ${r.duygu} | <b>7. Yıldız:</b> ${"⭐".repeat(Number(r.yildiz))}<br><b>Rozet:</b> ${r.rozet}<br><span class="small">${r.tarih}</span></div>`).join("");
+}
+function downloadCSV(){
+ const rows=getRows(); const headers=["Tarih","Gün","Ad Soyad","3 Kelime","İlginç Bilgi","Düşündürdüğü","Gelecek Fikir","Duygu","Yıldız","Rozet"];
+ const csv=[headers.join(";"),...rows.map(r=>[r.tarih,r.gun,r.adSoyad,r.ucKelime,r.ilgincBilgi,r.dusundurdugu,r.gelecekFikir,r.duygu,r.yildiz,r.rozet].map(v=>'"'+String(v).replaceAll('"','""')+'"').join(";"))].join("\n");
+ const blob=new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"}); const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="TUBITAK_4004_STEM_Gunlugu_Raporu.csv"; a.click();
+}
+</script>
 </body>
 </html>
